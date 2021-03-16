@@ -1,11 +1,13 @@
 import React from "react";
+import { connect } from "react-redux";
+import { IPost } from "../redux/postsReducer";
 import Post from "./Post";
 
 interface IPostsProps {
-  posts: number[];
+  posts: IPost[];
 }
 
-export const Posts = ({ posts }: IPostsProps) => {
+const Posts = ({ posts }: IPostsProps) => {
   if (!posts.length)
     return (
       <>
@@ -15,8 +17,19 @@ export const Posts = ({ posts }: IPostsProps) => {
   return (
     <>
       {posts.map((post) => (
-        <Post post={post} key={post} />
+        <Post post={JSON.stringify(post)} key={post.post.id} />
       ))}{" "}
     </>
   );
 };
+
+const mapStateToProps = (state: any) => {
+  // console.log(`state=`, state);
+  const posts = state.posts.posts;
+  console.log(`posts=`, posts);
+  return {
+    posts,
+  };
+};
+
+export default connect(mapStateToProps, null)(Posts);

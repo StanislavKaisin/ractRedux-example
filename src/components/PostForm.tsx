@@ -1,15 +1,17 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-export interface IPostFormProps {}
+import { createPost } from "../redux/actions";
+import { IPost, IPostAction } from "../redux/postsReducer";
 
+export interface IPostFormProps {
+  createPost: (arg0: IPost[]) => IPostAction;
+}
 export interface IPostFormState {
   [key: string]: string;
 }
 
-export default class PostForm extends Component<
-  IPostFormProps,
-  IPostFormState
-> {
+class PostForm extends Component<IPostFormProps, IPostFormState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -20,11 +22,17 @@ export default class PostForm extends Component<
     evenet.preventDefault();
     console.log(`this.state.title=`, this.state.title);
     const { title } = this.state;
+    if (!title.trim()) {
+      return;
+    }
     const newPost = {
-      title,
-      id: Date.now().toString(),
+      post: {
+        title,
+        id: Date.now().toString(),
+      },
     };
     console.log(`newPost=`, newPost);
+    this.props.createPost([newPost]);
     this.setState({ title: "" });
   };
 
@@ -60,3 +68,9 @@ export default class PostForm extends Component<
     );
   }
 }
+
+const mapDispatchToProps = {
+  createPost,
+};
+
+export default connect(null, mapDispatchToProps)(PostForm);
