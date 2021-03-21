@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { createPost } from "../redux/actions";
+import { createPost, showAlert } from "../redux/actions";
+import { IAlertAction } from "../redux/appReducer";
 import { IPost, IPostAction } from "../redux/postsReducer";
+import { Alert } from "./Alert";
 
 export interface IPostFormProps {
   createPost: (arg0: IPost[]) => IPostAction;
+  showAlert: (arg0: string) => IAlertAction;
 }
 export interface IPostFormState {
   [key: string]: string;
@@ -23,13 +26,11 @@ class PostForm extends Component<IPostFormProps, IPostFormState> {
     console.log(`this.state.title=`, this.state.title);
     const { title } = this.state;
     if (!title.trim()) {
-      return;
+      return this.props.showAlert("The post title should not be empty");
     }
     const newPost = {
-      post: {
-        title,
-        id: Date.now().toString(),
-      },
+      title,
+      id: Date.now().toString(),
     };
     console.log(`newPost=`, newPost);
     this.props.createPost([newPost]);
@@ -47,8 +48,8 @@ class PostForm extends Component<IPostFormProps, IPostFormState> {
   render() {
     return (
       <div className="pb-3 pt-3">
-        PostForm
         <form onSubmit={this.submitHandler}>
+          <Alert />
           <div className="form-group pb-3 pt-3">
             <label htmlFor="title">Post title</label>
             <input
@@ -71,6 +72,7 @@ class PostForm extends Component<IPostFormProps, IPostFormState> {
 
 const mapDispatchToProps = {
   createPost,
+  showAlert,
 };
 
 export default connect(null, mapDispatchToProps)(PostForm);
