@@ -5,6 +5,7 @@ import { applyMiddleware, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 
 import App from "./App";
+import { forbiddenWordsMiddleware } from "./redux/middleware";
 import { rootReducer } from "./redux/rootReducer";
 import reportWebVitals from "./reportWebVitals";
 
@@ -19,7 +20,7 @@ const composeEnhancers =
 
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk, forbiddenWordsMiddleware))
 );
 
 ReactDOM.render(
