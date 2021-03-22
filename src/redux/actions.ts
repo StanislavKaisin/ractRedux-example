@@ -5,6 +5,7 @@ import {
   FETCH_POSTS,
   HIDE_ALERT,
   HIDE_LOADER,
+  REQUEST_POSTS,
   SHOW_ALERT,
   SHOW_LOADER,
 } from "./types";
@@ -15,7 +16,7 @@ export function createPost(post: IPost[]): IPostAction {
     payload: post,
   };
 }
-
+/*
 export function fetchPosts() {
   return async (dispatch: any) => {
     try {
@@ -32,6 +33,12 @@ export function fetchPosts() {
       dispatch(showAlert("Something wrong with the server"));
       dispatch(hideLoader());
     }
+  };
+}
+*/
+export function fetchPosts() {
+  return {
+    type: REQUEST_POSTS,
   };
 }
 
