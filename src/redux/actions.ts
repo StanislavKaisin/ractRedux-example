@@ -16,6 +16,7 @@ export function createPost(post: IPost[]): IPostAction {
     payload: post,
   };
 }
+
 /*
 export function fetchPosts() {
   return async (dispatch: any) => {
@@ -70,6 +71,8 @@ export function showAlert(text: string) {
   //   payload: text,
   // };
 }
+
+export type IshowAlert = typeof showAlert;
 
 export function hideAlert(): IAlertAction {
   return {

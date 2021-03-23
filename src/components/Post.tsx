@@ -1,6 +1,4 @@
 import React from "react";
-import { IPost } from "../redux/postsReducer";
-import { IfetchedPost } from "./FetchedPosts";
 
 export interface IPostProp {
   post: {

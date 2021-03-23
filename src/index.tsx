@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore } from "redux";
 import thunk from "redux-thunk";
-
+import createSagaMiddleware from "redux-saga";
 import App from "./App";
 import { forbiddenWordsMiddleware } from "./redux/middleware";
 import { rootReducer } from "./redux/rootReducer";
 import reportWebVitals from "./reportWebVitals";
+import { sagaWatcher } from "./redux/sagas";
+
+const saga = createSagaMiddleware();
 
 declare global {
   interface Window {
@@ -20,8 +23,9 @@ const composeEnhancers =
 
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk, forbiddenWordsMiddleware))
+  composeEnhancers(applyMiddleware(thunk, forbiddenWordsMiddleware, saga))
 );
+saga.run(sagaWatcher);
 
 ReactDOM.render(
   <React.StrictMode>
